@@ -1,0 +1,4 @@
+Frontera,Mallas probadas,máx |Δ coeficientes|,máx |Δ S(x)|,Diagonal estrictamente dominante
+natural,9,5.995204332975845e-15,2.842170943040401e-14,sí
+sujeta,9,7.105427357601002e-15,2.842170943040401e-14,sí
+not-a-knot,9,1.4210854715202004e-14,2.842170943040401e-14,sí

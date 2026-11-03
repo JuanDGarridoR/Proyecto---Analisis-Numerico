@@ -1,0 +1,7 @@
+Método,Constante de Lebesgue Λ,en km
+Lagrange (grado n-1),17.848612152556942,0.318
+Spline not-a-knot,1.9714651550707663,0.441
+Spline natural,1.5433962264150942,4.5
+Spline sujeta,1.545751633986928,4.5
+Hermite (np.gradient),1.25,1.5
+Lineal,1.0,0.0

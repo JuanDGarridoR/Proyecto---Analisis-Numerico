@@ -42,8 +42,9 @@ def tramos(f, u, a=0.0, b=9.0):
     """Intervalos donde f(x) >= u (raíces por interpolación lineal en malla densa)."""
     xx = np.linspace(a, b, 9001)
     g = f(xx) - u
-    idx = np.where(np.sign(g[:-1]) * np.sign(g[1:]) < 0)[0]
-    r = xx[idx] - g[idx] * (xx[idx + 1] - xx[idx]) / (g[idx + 1] - g[idx])
+    idx = np.where(g[:-1] * g[1:] < 0)[0]                        # cambio de signo estricto
+    r = np.concatenate([xx[g == 0],                               # raíces que caen justo en la malla
+                        xx[idx] - g[idx] * (xx[idx + 1] - xx[idx]) / (g[idx + 1] - g[idx])])
     pts = np.unique(np.concatenate([[a], r, [b]]))
     return [(p, q) for p, q in zip(pts[:-1], pts[1:]) if f(0.5 * (p + q)) >= u]
 
