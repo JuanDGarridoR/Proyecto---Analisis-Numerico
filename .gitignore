@@ -5,3 +5,9 @@ __pycache__/
 airspline_malla_91_puntos.csv
 airspline_panel_export.csv
 airspline_app_captura.png
+# LaTeX (informe)
+*.aux
+*.log
+*.out
+*.synctex.gz
+.pytest_cache/

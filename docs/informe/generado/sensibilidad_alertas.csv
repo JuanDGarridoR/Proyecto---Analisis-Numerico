@@ -1,0 +1,8 @@
+Método,Amarilla desde km,Amarilla hasta km,Amarilla: máx. desfase vs not-a-knot (m),Roja desde km,Roja hasta km,Roja: máx. desfase vs not-a-knot (m)
+Spline not-a-knot,2.1088,6.5924,0.0000,3.4882,4.6801,0.0000
+Hermite (np.gradient),2.1168,6.5804,11.9179,3.5268,4.6856,38.6901
+Spline natural,2.1073,6.5957,3.3684,3.4902,4.6813,2.0860
+Spline sujeta,2.1065,6.5973,4.9772,3.4913,4.6819,3.0990
+Lagrange (grado n-1),2.1104,6.6224,30.0403,3.4719,4.6817,16.2481
+PCHIP,2.1155,6.5860,6.6293,3.5332,4.6397,45.0079
+Lineal,2.1176,6.5625,29.8519,3.7143,4.5000,226.1275
