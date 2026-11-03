@@ -1,5 +1,5 @@
 % =====================================================================================
-%  AirSpline — Informe del rol de Modelado y Validación (Estudio de Caso 3)
+%  Splaire (Aire medido en cada Metro) — Informe del rol de Modelado y Validación (Estudio de Caso 3)
 %  Compilar:  pdflatex informe_modelado_validacion.tex   (dos veces, por las referencias)
 %  Overleaf : subir la carpeta docs/informe completa (incluye figuras/ y generado/).
 %  Todos los números provienen de generado/valores.tex, producido por
@@ -26,6 +26,7 @@
 \newcommand{\PMdc}{PM\textsubscript{2.5}}
 \newcommand{\nak}{\emph{not-a-knot}}
 \renewcommand{\IEEEkeywordsname}{Palabras clave}
+\renewcommand{\lstlistingname}{Código}
 \setcounter{dbltopnumber}{2}
 \renewcommand{\dbltopfraction}{0.85}
 \renewcommand{\dblfloatpagefraction}{0.8}
@@ -41,13 +42,14 @@
 
 \begin{document}
 
-\title{AirSpline: modelado y validación de splines cúbicos\\para sensores virtuales de \PMdc}
+\title{Splaire: \emph{Aire medido en cada Metro}\\[2pt]
+{\Large Modelado y validación de splines cúbicos para sensores virtuales de \PMdc}}
 
 \author{\IEEEauthorblockN{Estudiantes:\\
 Juan David Garrido (Ingeniero de Algoritmos y Simulación)\\
 Edwin Quiñones (Ingeniero de Integración y Estrategia)\\
 Miguel Angel Laiton (Ingeniero de Modelado y Validación)}
-\IEEEauthorblockA{Equipo AirSpline · Análisis Numérico para Ingeniería · Estudio de Caso 3 (\emph{Air Health Analytics})\\
+\IEEEauthorblockA{Equipo Splaire · Análisis Numérico para Ingeniería · Estudio de Caso 3 (\emph{Air Health Analytics})\\
 Repositorio: \url{https://github.com/JuanDGarridoR/Proyecto---Analisis-Numerico}}}
 
 \maketitle
@@ -71,7 +73,7 @@ spline cúbico, fenómeno de Runge, constante de Lebesgue, validación cruzada, 
 
 % -------------------------------------------------------------------------------------
 \section{Introducción}
-AirSpline genera \emph{sensores virtuales} de \PMdc{}: a partir de 10 estaciones fijas (una por
+Splaire ---\emph{Aire medido en cada Metro}--- genera \emph{sensores virtuales} de \PMdc{}: a partir de 10 estaciones fijas (una por
 kilómetro) interpola la concentración en una malla de 91 puntos ($\Delta x=0.1$\,km) para emitir
 alertas sanitarias (amarilla $\ge 70$\,\ugm, roja $\ge 90$\,\ugm). Este informe documenta el trabajo del
 rol de Modelado y Validación, que corresponde a las secciones §2, §3 y §5 del cuaderno
@@ -84,7 +86,7 @@ validación frente al ruido de los sensores.
 \section{Formulación del problema}\label{sec:formulacion}
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=0.94\textwidth]{figuras/fig2_runge_lebesgue.png}
+\includegraphics[width=0.92\textwidth]{figuras/fig2_runge_lebesgue.png}
 \caption{Fenómeno de Runge cuantificado. (a) Función de Lebesgue en los nodos del corredor: Lagrange
 amplifica hasta $\times$\LEBlag{} cerca de los extremos; el spline se mantiene por debajo de 2.
 (b) Crecimiento exponencial de $\Lambda$ para Lagrange (sigue la asintótica) y acotado para el spline.}
@@ -154,7 +156,7 @@ La elección \nak{} coincide con la del cuaderno (\texttt{BC\_PRINCIPAL}) y redu
 \subsection{Error y estabilidad del polinomio de grado alto}
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=0.94\textwidth]{figuras/fig3_convergencia.png}
+\includegraphics[width=0.92\textwidth]{figuras/fig3_convergencia.png}
 \caption{Verificación del orden de convergencia. (a) $\|f-S\|_\infty$ vs.\ $h$: \nak{} y sujeta con $f'$
 exacta siguen $O(h^4)$; la natural y la lineal, $O(h^2)$. (b) Función de Runge: Lagrange diverge y el spline
 converge.}
@@ -162,7 +164,7 @@ converge.}
 \end{figure*}
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=0.94\textwidth]{figuras/fig1_loocv.png}
+\includegraphics[width=0.92\textwidth]{figuras/fig1_loocv.png}
 \caption{Validación LOOCV en los 8 nodos internos. (a) Error absoluto por estación retirada (eje
 simétrico-logarítmico). (b) RMSE (barra; resaltado el modelo elegido) y error máximo (marca) por método.}
 \label{fig:loocv}
@@ -208,7 +210,7 @@ condición. Estas comprobaciones forman parte de 26 pruebas automáticas (\textt
 \section{Validación cruzada leave-one-out}
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=0.94\textwidth]{figuras/fig4_robustez_ruido.png}
+\includegraphics[width=0.92\textwidth]{figuras/fig4_robustez_ruido.png}
 \caption{Robustez. (a) Factor de amplificación del ruido en el error LOOCV de cada estación. (b) Distribución
 del RMSE LOOCV bajo ruido (caja: P25--P75; bigotes: P2.5--P97.5) y RMSE con los datos del caso (rombo).}
 \label{fig:ruido}
@@ -222,10 +224,9 @@ e_{\max}=\max_i|e_i| .
 \end{equation}
 E1 y E10 no se retiran porque su predicción sería una extrapolación. La LOOCV simula exactamente la falla
 de una estación~\cite{hastie2009} y, al predecir a través de un hueco de $2h$, es una estimación
-conservadora del error del modelo final con $h=1$\,km.
+conservadora del error del modelo final con $h=1$\,km (Código~\ref{lst:loocv}).
 
-\noindent\begin{minipage}{\columnwidth}
-\begin{lstlisting}
+\begin{lstlisting}[float=!t, caption={Esquema LOOCV (extracto de \texttt{modelado\_validacion.py}).}, label=lst:loocv]
 def loocv(x, y, nombres):
     filas = []
     for i in range(1, len(x) - 1):      # nodos internos
@@ -237,7 +238,6 @@ def loocv(x, y, nombres):
     e = pd.DataFrame(filas)
     return np.sqrt((e**2).mean()), e.abs().max()   # RMSE, e_max
 \end{lstlisting}
-\end{minipage}
 
 \begin{table}[!t]
 \caption{LOOCV: error con signo $e_i$ por estación retirada y métricas (\ugm). En negrita, el mejor.}
@@ -269,9 +269,8 @@ Se repitió la LOOCV en \NMC{} realizaciones $y+\varepsilon$ (semilla \SEMILLA;
 Fig.~\ref{fig:ruido}b). Con ruido fuerte, los métodos cúbicos $C^1$/$C^2$ quedan estadísticamente empatados
 (medias de \MCnat{} a \MCnak\,\ugm{} con intervalos muy superpuestos) y ninguno domina: el \nak{} obtiene el
 menor RMSE en el \MCganaNak\,\% de las realizaciones, pero su mayor sensibilidad en los bordes eleva su media. Lineal (\MClin) y Lagrange
-(\MClag) siguen siendo peores. Esto concuerda con la banda Monte Carlo de la §8 del cuaderno (replicada de
-forma independiente): su ancho máximo, \BANDAmax\,\ugm, ocurre en km \BANDAmaxkm, y el mínimo, \BANDAmin, en
-km \BANDAminkm.
+(\MClag) siguen siendo peores. Coincide con la banda de la §8 del cuaderno (replicada aquí): ancho máximo
+\BANDAmax\,\ugm{} en km \BANDAmaxkm{} y mínimo \BANDAmin{} en km \BANDAminkm.
 
 \subsection{Interpretación}
 El RMSE observado del \nak{} (\RMSEnak) cae en el percentil \PCTnak{} de su distribución bajo ruido: si
@@ -293,27 +292,26 @@ $-$\REDlin\,\% de RMSE frente a la lineal y $-$\REDlag\,\% frente a Lagrange.
 \FACnakBorde); la banda Monte Carlo debe acompañar siempre a la alerta.
 \item \textbf{Hallazgo de validación:} la búsqueda de tramos de alerta para lineal y Lagrange perdía las
 raíces que caen sobre la malla (km 4.5 con umbral 90); quedó corregida y con prueba de regresión.
-\item \textbf{Limitaciones y trabajo futuro:} modelo 1-D con 10 datos y 8 pliegues (métricas de alta
-varianza); no modela viento ni tráfico. Si el ruido real fuera del orden de $\sigma=2.5$, convendría un
-spline de \emph{suavizado} con parámetro elegido por validación cruzada generalizada, o kriging.
+\item \textbf{Limitaciones y trabajo futuro:} modelo 1-D, 10 datos y 8 pliegues; no modela viento ni
+tráfico. Con ruido real del orden de $\sigma=2.5$ convendría un spline de \emph{suavizado} o kriging.
 \end{itemize}
 
 % -------------------------------------------------------------------------------------
 \begin{thebibliography}{9}
 \bibitem{burden2017} R. L. Burden, J. D. Faires y A. M. Burden, \emph{Análisis numérico}, 10.ª ed.
-México: Cengage Learning, 2017, cap.~3.
-\bibitem{deboor2001} C. de Boor, \emph{A Practical Guide to Splines}, ed. rev. New York, NY, USA:
+Cengage Learning, 2017.
+\bibitem{deboor2001} C. de Boor, \emph{A Practical Guide to Splines}, ed. rev.
 Springer, 2001.
 \bibitem{hall1976} C. A. Hall y W. W. Meyer, ``Optimal error bounds for cubic spline interpolation,''
 \emph{J. Approx. Theory}, vol.~16, no.~2, pp.~105--122, 1976.
 \bibitem{trefethen2019} L. N. Trefethen, \emph{Approximation Theory and Approximation Practice}, ed.
-ampliada. Philadelphia, PA, USA: SIAM, 2019.
+ampliada. SIAM, 2019.
 \bibitem{runge1901} C. Runge, ``Über empirische Funktionen und die Interpolation zwischen äquidistanten
 Ordinaten,'' \emph{Z. Math. Phys.}, vol.~46, pp.~224--243, 1901.
 \bibitem{holladay1957} J. C. Holladay, ``A smoothest curve approximation,'' \emph{Math. Tables Aids
 Comput.}, vol.~11, no.~60, pp.~233--243, 1957.
 \bibitem{hastie2009} T. Hastie, R. Tibshirani y J. Friedman, \emph{The Elements of Statistical Learning},
-2.ª ed. New York, NY, USA: Springer, 2009, cap.~7.
+2.ª ed. Springer, 2009.
 \bibitem{virtanen2020} P. Virtanen \emph{et al.}, ``SciPy 1.0: Fundamental algorithms for scientific
 computing in Python,'' \emph{Nat. Methods}, vol.~17, pp.~261--272, 2020.
 \end{thebibliography}
