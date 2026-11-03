@@ -1,0 +1,7 @@
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+*.pyc
+airspline_malla_91_puntos.csv
+airspline_panel_export.csv
+airspline_app_captura.png
